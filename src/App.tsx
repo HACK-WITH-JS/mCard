@@ -1,41 +1,63 @@
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
-import logo from './logo.svg'
 import './App.css'
 
-const bold = css`
-  font-weight: bold;
-`
+import Text from '@shared/Text'
+import Button from '@shared/Button'
+import Input from '@shared/Input'
+import TextField from './components/shared/TextField'
+import Alert from './components/shared/Alert'
 
-const containerStyles = css`
-  background-color: pink;
-  ${bold}
-`
-
-const Button = styled.button`
-  width: 200px;
-  height: 100px;
-  ${bold}
-`
+import { useAlertContext } from './contexts/AlertContext'
 
 function App() {
+  const { open } = useAlertContext()
+
   return (
-    <div className="App" css={containerStyles}>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Button>스타일 버튼</Button>
-      </header>
+    <div>
+      <Text typography="t1" display="block" color="red" bold>
+        t1
+      </Text>
+      <Text typography="t2">t2</Text>
+      <Text typography="t3">t3</Text>
+      <Text typography="t4">t4</Text>
+      <Text>t5</Text>
+      <Text typography="t6">t6</Text>
+
+      <hr />
+      <br />
+      <br />
+
+      <Button>클릭 해주세용</Button>
+      <Button color="error">클릭 해주세용</Button>
+      <Button color="success">클릭 해주세용</Button>
+      <Button color="success" size="large" weak full disabled>
+        클릭 해주세용
+      </Button>
+
+      <hr />
+      <br />
+      <br />
+
+      <Input />
+      <Input aria-invalid={true} />
+
+      <hr />
+      <br />
+      <br />
+
+      <hr />
+      <br />
+      <br />
+      <TextField label="아이디" hasError />
+      <TextField label="비밀번호" />
+
+      {/* <Alert title="alert Text" description="히힣" onButtonClick={() => {}} /> */}
+      <Button
+        onClick={() =>
+          open({ title: '하이', description: 'test', onButtonClick: () => {} })
+        }
+      >
+        얼러트 오픈!
+      </Button>
     </div>
   )
 }
