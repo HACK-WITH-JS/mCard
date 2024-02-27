@@ -10,9 +10,10 @@ import { motion } from 'framer-motion'
 interface FixedBottomProps {
   label: string
   onClick: () => void
+  disabled?: boolean
 }
 
-function FixedBottomButton({ label, onClick }: FixedBottomProps) {
+function FixedBottomButton({ label, onClick, disabled }: FixedBottomProps) {
   const $portal_root = document.getElementById('root-portal')
 
   if ($portal_root == null) {
@@ -30,7 +31,13 @@ function FixedBottomButton({ label, onClick }: FixedBottomProps) {
           translateY: 0,
         }}
       >
-        <Button onClick={onClick} full css={buttonStyles} size="medium">
+        <Button
+          onClick={onClick}
+          full
+          css={buttonStyles}
+          size="medium"
+          disabled={disabled}
+        >
           {label}
         </Button>
       </motion.div>
