@@ -1,10 +1,13 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ListRow from '@shared/ListRow'
 import { useInfiniteQuery } from 'react-query'
 import { getCards } from '@/remote/card'
 import { flatten } from 'lodash'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import Badge from '../shared/Badge'
 
+// 무한 스크롤 로직이 구현 되어 있는 컴포넌트
 function CardList() {
   const {
     data,
@@ -26,6 +29,8 @@ function CardList() {
     fetchNextPage()
   }, [fetchNextPage, hasNextPage, isFetching])
 
+  const navigate = useNavigate()
+
   if (data === undefined) {
     return null
   }
@@ -39,17 +44,23 @@ function CardList() {
         hasMore={hasNextPage}
         loader={<div>로딩</div>}
         next={loadMore}
+        scrollThreshold="100px"
       >
-        {cards.map((card, index) => (
-          <ListRow
-            key={card.id}
-            contents={
-              <ListRow.Texts title={`${index + 1}위`} subtitle={card.name} />
-            }
-            right={card.payback !== null ? <div>{card.payback}</div> : null}
-            withArrow
-          />
-        ))}
+        <ul>
+          {cards.map((card, index) => (
+            <ListRow
+              key={card.id}
+              contents={
+                <ListRow.Texts title={`${index + 1}위`} subtitle={card.name} />
+              }
+              right={
+                card.payback != null ? <Badge label={card.payback} /> : null
+              }
+              withArrow
+              onClick={() => navigate(`/card/${card.id}`)}
+            />
+          ))}
+        </ul>
       </InfiniteScroll>
     </div>
   )
